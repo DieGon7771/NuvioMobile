@@ -2,6 +2,10 @@ package com.nuvio.app.features.player
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.nuvio.app.features.player.cast.rememberCastController
+import com.nuvio.app.features.player.cast.CastDevicePicker
+import com.nuvio.app.features.player.cast.CastConnectionState
+import com.nuvio.app.features.player.cast.CastMediaRequest
 
 @Composable
 fun PlayerScreen(
@@ -42,6 +46,10 @@ fun PlayerScreen(
     initialPositionMs: Long = 0L,
     initialProgressFraction: Float? = null,
 ) {
+    val castController = rememberCastController()
+    var showCastPicker by remember { mutableStateOf(false) }
+    val isCasting = castController?.isCasting == true
+
     PlayerScreenContent(
         PlayerScreenArgs(
             title = title,
@@ -82,4 +90,12 @@ fun PlayerScreen(
             initialProgressFraction = initialProgressFraction,
         )
     )
+
+    if (showCastPicker && castController != null) {
+        CastDevicePicker(
+            controller = castController,
+            onDismiss = { showCastPicker = false },
+        )
+    }
+}
 }

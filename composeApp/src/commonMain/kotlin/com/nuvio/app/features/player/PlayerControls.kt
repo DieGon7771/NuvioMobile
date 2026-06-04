@@ -26,6 +26,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Cast
+import androidx.compose.material.icons.rounded.CastConnected
 import androidx.compose.material.icons.rounded.Flag
 import androidx.compose.material.icons.rounded.FastForward
 import androidx.compose.material.icons.rounded.LiveTv
@@ -96,6 +98,11 @@ internal fun PlayerControlsShell(
     onVolumeBoostClick: (() -> Unit)? = null,
     onLiveChannelsClick: (() -> Unit)? = null,
     onSubmitIntroClick: (() -> Unit)? = null,
+    onCastClick: (() -> Unit)? = null,
+    isCasting: Boolean = false,
+    onPictureInPictureClick: (() -> Unit)? = null,
+    onFullscreenClick: (() -> Unit)? = null,
+    isFullscreen: Boolean = false,
     parentalWarnings: List<ParentalWarning> = emptyList(),
     showParentalGuide: Boolean = false,
     onParentalGuideAnimationComplete: () -> Unit = {},
@@ -157,6 +164,11 @@ internal fun PlayerControlsShell(
                 onParentalGuideAnimationComplete = onParentalGuideAnimationComplete,
                 onLockToggle = onLockToggle,
                 onVideoSettingsClick = onVideoSettingsClick,
+                onCastClick = onCastClick,
+                isCasting = isCasting,
+                onPictureInPictureClick = onPictureInPictureClick,
+                onFullscreenClick = onFullscreenClick,
+                isFullscreen = isFullscreen,
                 onBack = onBack,
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -228,6 +240,11 @@ private fun PlayerHeader(
     onParentalGuideAnimationComplete: () -> Unit,
     onLockToggle: () -> Unit,
     onVideoSettingsClick: (() -> Unit)?,
+    onCastClick: (() -> Unit)? = null,
+    isCasting: Boolean = false,
+    onFullscreenClick: (() -> Unit)? = null,
+    isFullscreen: Boolean = false,
+    onPictureInPictureClick: (() -> Unit)? = null,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -327,6 +344,15 @@ private fun PlayerHeader(
                             onClick = onSubmitIntroClick,
                         )
                     }
+                    if (onCastClick != null) {
+                        PlayerHeaderIconButton(
+                            icon = if (isCasting) Icons.Rounded.CastConnected else Icons.Rounded.Cast,
+                            contentDescription = stringResource(Res.string.player_action_cast),
+                            buttonSize = metrics.headerIconSize + 16.dp,
+                            iconSize = metrics.headerIconSize,
+                            onClick = onCastClick,
+                        )
+                    }
                     PlayerHeaderIconButton(
                         icon = if (isLocked) Icons.Rounded.LockOpen else Icons.Rounded.Lock,
                         contentDescription = if (isLocked) {
@@ -338,6 +364,15 @@ private fun PlayerHeader(
                         iconSize = metrics.headerIconSize,
                         onClick = onLockToggle,
                     )
+                    if (onPictureInPictureClick != null) {
+                        PlayerHeaderIconButton(
+                            icon = Icons.Rounded.PictureInPictureAlt,
+                            contentDescription = "Picture in picture",
+                            buttonSize = metrics.headerIconSize + 16.dp,
+                            iconSize = metrics.headerIconSize,
+                            onClick = onPictureInPictureClick,
+                        )
+                    }
                     if (onVideoSettingsClick != null) {
                         PlayerHeaderIconButton(
                             icon = Icons.Rounded.Build,
