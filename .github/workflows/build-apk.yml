@@ -58,28 +58,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches/modules-2
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/libs.versions.toml', 'gradle/*.gradle.kts', 'gradle/*.properties', 'composeApp/build.gradle.kts', 'build.gradle.kts') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Cache Gradle build cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .gradle/configuration-cache
-            composeApp/.gradle
-            composeApp/build/androidMain
-          key: ${{ runner.os }}-gradle-build-${{ hashFiles('gradle/libs.versions.toml', 'composeApp/build.gradle.kts') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-build-
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Decode Keystore
         run: |
@@ -211,28 +190,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches/modules-2
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/libs.versions.toml', 'gradle/*.gradle.kts', 'gradle/*.properties', 'composeApp/build.gradle.kts', 'build.gradle.kts') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Cache Gradle build cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .gradle/configuration-cache
-            composeApp/.gradle
-            composeApp/build
-          key: ${{ runner.os }}-gradle-build-${{ hashFiles('gradle/libs.versions.toml', 'composeApp/build.gradle.kts') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-build-
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Write local.properties
         shell: pwsh
